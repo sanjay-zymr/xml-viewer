@@ -5,7 +5,7 @@
   "scripts": {
     "test": "make test"
   },
-  "repository": "juliangruber/xml-viewer",
+  "repository": "sanjay-zymr/xml-viewer",
   "devDependencies": {
     "beefy": "^2.1.5",
     "brfs": "^1.4.1",
@@ -16,6 +16,8 @@
   "dependencies": {
     "hyperscript": "^2.0.2",
     "xml-parser": "^1.2.1",
-    "xml-render": "^2.0.0"
+    "xml-render": "^2.0.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5"
   }
 }
