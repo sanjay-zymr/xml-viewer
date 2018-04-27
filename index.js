@@ -110,13 +110,16 @@ Viewer.prototype._renderNode = function(node, indent){
 		h('br'),
 		tabs(indent),
 		spaces(2),
-		render.tagClose(node)
+		this._tagClose(node)
 	);
 
 	node.el = el;
 	return el;
 }
 
+Viewer.prototype._tagClose = function(node){
+	return h('a.nodeLabel', { }, fmt('</%s>', node.name));
+}
 
 Viewer.prototype._tagOpen = function(node){
 	var el;
@@ -199,7 +202,7 @@ Viewer.prototype._renderLeaf = function(node, indent){
 		h('span',' ', this._renderAttribute(node)),
 		h('span',' ', '>'),
 		node.content,
-		render.tagClose(node)
+		this._tagClose(node)
 	);
 	if(_.includes(this.pathsToBeSelected, node.path)) {
 		el.classList.add('selected');
