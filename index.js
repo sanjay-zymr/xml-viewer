@@ -151,22 +151,22 @@ Viewer.prototype._renderAttribute = function (node){
 
 	_.forEach(node.attributes, function(val , key){
 		var attribute ='a.attributeLabel';
-		if(_.includes(this.pathsToBeSelected, node.path + '@'+key)) {
+		if(_.includes(me.pathsToBeSelected, node.path + '@'+key)) {
 			attribute = 'a.attributeLabel.selected';
 		}
 		el = h(attribute, { href: node.path + '@'+key }, fmt('%s="%s"', key, val));
 		el.addEventListener('click', function(event){
 			event.preventDefault();
 			var isSelected = false;
-			if(_.includes(el.classList, 'selected')) {
-				el.classList.remove('selected');
+			if(_.includes(event.currentTarget.classList, 'selected')) {
+				$(event.currentTarget).removeClass('selected');
 				isSelected = false;
 			}else {
-				el.classList.add('selected');
+				$(event.currentTarget).addClass('selected');
 				isSelected = true;
 			}
 			var obj =  {
-				el: el,
+				el: $(event.currentTarget),
 				node: node,
 				path: node.path + '@'+key,
 				isSelected: isSelected
