@@ -76,12 +76,16 @@ Viewer.prototype._renderNode = function(node, indent){
 	function ontoggle(ev){
 		ev.stopPropagation();
 		if (folded) {
-			ev.target.innerHTML = '-';
+			ev.target.innerHTML = '';
+			ev.target.classList.remove('closeTag');
+			ev.target.classList.add('openTag');
 			node.children.forEach(function(child){
 				child.el.style.display = 'inline';
 			});
 		} else {
-			ev.target.innerHTML = '+';
+			ev.target.innerHTML = '';
+			ev.target.classList.remove('openTag');
+			ev.target.classList.add('closeTag');
 			node.children.forEach(function(child){
 				child.el.style.display = 'none';
 			});
@@ -97,7 +101,7 @@ Viewer.prototype._renderNode = function(node, indent){
 	var el = h('span',
 		h('br'),
 		tabs(indent),
-		h('span.icon', { onclick: ontoggle }, '-'),
+		h('span.openTag', { onclick: ontoggle }, ''),
 		spaces(1),
 		h('span',' ', '<'),
 		h('span',' ', this._tagOpen(node)),
