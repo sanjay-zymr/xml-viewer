@@ -102,7 +102,7 @@ Viewer.prototype._renderNode = function(node, indent){
 		h('br'),
 		tabs(indent),
 		h('span.openTag', { onclick: ontoggle }, ''),
-		spaces(1),
+		spaces(1, true),
 		h('span',' ', '<'),
 		h('span',' ', this._tagOpen(node)),
 		h('span',' ', this._renderAttribute(node)),
@@ -199,8 +199,8 @@ Viewer.prototype._renderLeaf = function(node, indent){
 	};
 	var el = h('span',
 		h('br'),
-		tabs(indent),
-		spaces(2),
+		tabs(indent, true),
+		spaces(2, true),
 		h('span',' ', '<'),
 		h('span',' ', this._tagOpen(node)),
 		h('span',' ', this._renderAttribute(node)),
@@ -229,10 +229,14 @@ function tabs(n){
 	return out;
 }
 
-function spaces(n){
+function spaces(n, isLineNeeded){
 	var el = document.createElement('span');
-	for (var i = 0; i < n; i++) {
-		el.innerHTML += '&nbsp';
+	for (var i = 0; i < n+1; i++) {
+		if(i === 0 && !isLineNeeded) {
+			el.innerHTML += '<span class="xml-line">&#xff5c</span>';
+		}else {
+			el.innerHTML += '&nbsp';
+		}
 	}
 	return el;
 }
