@@ -128,8 +128,8 @@ Viewer.prototype._tagClose = function(node){
 Viewer.prototype._tagOpen = function(node){
 	var el;
 	var me = this;
-	el = h('a.nodeLabel', { href: node.path }, fmt('%s', node.name));
-	if(_.includes(this.pathsToBeSelected, node.path)) {
+	el = h('a.nodeLabel', { href: '/'+node.path }, fmt('%s', node.name));
+	if(_.includes(this.pathsToBeSelected, '/'+node.path)) {
 		el.classList.add('selected');
 	}
 	el.addEventListener('click', function(event){
@@ -158,10 +158,10 @@ Viewer.prototype._renderAttribute = function (node){
 
 	_.forEach(node.attributes, function(val , key){
 		var attribute ='a.attributeLabel';
-		if(_.includes(me.pathsToBeSelected, node.path + '@'+key)) {
+		if(_.includes(me.pathsToBeSelected, '/' + node.path + '/@'+key )) {
 			attribute = 'a.attributeLabel.selected';
 		}
-		el = h(attribute, { href: node.path + '@'+key }, fmt('%s="%s"', key, val));
+		el = h(attribute, { href: '/' + node.path + '/@'+key }, fmt('%s="%s"', key, val));
 		el.addEventListener('click', function(event){
 			event.preventDefault();
 			var isSelected = false;
