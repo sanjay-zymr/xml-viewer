@@ -107,6 +107,7 @@ Viewer.prototype._renderNode = function(node, indent){
 		h('span',' ', this._tagOpen(node)),
 		h('span',' ', this._renderAttribute(node)),
 		h('span',' ', '>'),
+		node.content,
 		node.children.map(function(child){
 			child.path  = (node.path ? (node.path + "/" ) : "") + child.name;
 			return self._renderNode(child, indent + 1);
