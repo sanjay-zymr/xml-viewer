@@ -103,10 +103,10 @@ Viewer.prototype._renderNode = function(node, indent){
 		tabs(indent),
 		h('span.openTag', { onclick: ontoggle }, ''),
 		spaces(1, true),
-		h('span',' ', '<'),
+		h('span.nodeLabel',' ', '<'),
 		h('span',' ', this._tagOpen(node)),
 		h('span',' ', this._renderAttribute(node)),
-		h('span',' ', '>'),
+		h('span.nodeLabel',' ', '>'),
 		node.content,
 		node.children.map(function(child){
 			child.path  = (node.path ? (node.path + "/" ) : "") + child.name;
@@ -202,10 +202,10 @@ Viewer.prototype._renderLeaf = function(node, indent){
 		h('br'),
 		tabs(indent, true),
 		spaces(2, true),
-		h('span',' ', '<'),
+		h('span.nodeLabel',' ', '<'),
 		h('span',' ', this._tagOpen(node)),
 		h('span',' ', this._renderAttribute(node)),
-		h('span',' ', '>'),
+		h('span.nodeLabel',' ', '>'),
 		node.content,
 		this._tagClose(node)
 	);
