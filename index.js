@@ -32,6 +32,11 @@ Viewer.prototype.removeSelection = function(path){
 	  $(this).removeClass('selected');
 	}
   })
+  $(this._el).find('a.attributeVal.selected').each(function(){
+	if($(this).attr('href') === path) {
+	  $(this).removeClass('selected');
+	}
+  })
 };
 Viewer.prototype.removeSelectionForUniqueColumn = function(path){
   $(this._el).find('a.nodeLabel.uniqueColumnClass').each(function(){
@@ -159,7 +164,6 @@ Viewer.prototype._tagOpen = function(node){
   el.addEventListener('click', function(event){
 	event.preventDefault();
 	var isSelected = false;
-	console.log('=====', me.isColumnMode);
 	if(me.isColumnMode) {
 	  if(_.includes(el.classList, 'selected')) {
 		el.classList.remove('selected');
@@ -188,17 +192,23 @@ Viewer.prototype._tagOpen = function(node){
 }
 Viewer.prototype._renderAttribute = function (node){
   var mainEl = h('span');
-  var el;
+  var el, attrValLable, valEl;
   var me = this;
 
   _.forEach(node.attributes, function(val , key){
 	var attribute ='a.attributeLabel';
-	if(_.includes(me.pathsToBeSelected, '/' + node.path + '/@'+key+'='+val)) {
+	attrValLable = 'a.attributeVal';
+	if(_.includes(me.pathsToBeSelected, '/' + node.path + '/@'+key+'="'+val+'"')) {
 	  attribute = 'a.attributeLabel.selected';
+	  attrValLable = 'a.attributeVal.selected';
 	}
-	el = h(attribute, { href: '/' + node.path + '/@'+key+'='+val }, fmt('%s="%s"', key, val));
-	el.addEventListener('click', function(event){
+	valEl = h(attrValLable, { href: '/' + node.path + '/@'+key+'="'+val+'"' }, fmt('%s', val));
+	valEl.addEventListener('click', function(event){
 	  event.preventDefault();
+	  event.stopPropagation();
+	  if(!me.isColumnMode) {
+		return;
+	  }
 	  var isSelected = false;
 	  if(_.includes(event.currentTarget.classList, 'selected')) {
 		$(event.currentTarget).removeClass('selected');
@@ -215,10 +225,38 @@ Viewer.prototype._renderAttribute = function (node){
 	  }
 	  me.emit('attributeLableClicked', obj);
 	});
-	var space = h('span');
+	el = h(attribute, { href: '/' + node.path + '/@'+key}, fmt('%s', key));
+	el.addEventListener('click', function(event){
+	  event.preventDefault();
+	  event.stopPropagation();
+	  if(!me.isColumnMode) {
+		return;
+	  }
+	  var isSelected = false;
+	  if(_.includes(event.currentTarget.classList, 'selected')) {
+		$(event.currentTarget).removeClass('selected');
+		isSelected = false;
+	  }else {
+		$(event.currentTarget).addClass('selected');
+		isSelected = true;
+	  }
+	  var obj =  {
+		el: $(event.currentTarget),
+		node: node,
+		path: node.path + '@'+key,
+		isSelected: isSelected
+	  }
+	  me.emit('attributeLableClicked', obj);
+	});
+	var space = h('span'), equalToSpan = h('span'), endValEl = h('span');
 	space.innerHTML = '&nbsp';
+	equalToSpan.innerHTML = '="';
+	endValEl.innerHTML = '"';
 	$(mainEl).append(space);
 	$(mainEl).append(el);
+	$(mainEl).append(equalToSpan);
+	$(mainEl).append(valEl);
+	$(mainEl).append(endValEl);
   });
   return mainEl;
 }
