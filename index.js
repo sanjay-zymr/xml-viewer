@@ -199,9 +199,11 @@ Viewer.prototype._renderAttribute = function (node){
 	var attribute ='a.attributeLabel';
 	attrValLable = 'a.attributeVal';
 	if(_.includes(me.pathsToBeSelected, '/' + node.path + '/@'+key+'="'+val+'"')) {
-	  attribute = 'a.attributeLabel.selected';
 	  attrValLable = 'a.attributeVal.selected';
 	}
+    if(_.includes(me.pathsToBeSelected, '/' + node.path + '/@'+key)) {
+      attribute = 'a.attributeLabel.selected';
+    }
 	valEl = h(attrValLable, { href: '/' + node.path + '/@'+key+'="'+val+'"' }, fmt('%s', val));
 	valEl.addEventListener('click', function(event){
 	  event.preventDefault();
